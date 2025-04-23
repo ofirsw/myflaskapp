@@ -19,10 +19,13 @@ from urllib.parse import urlparse, unquote
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config['SECRET_KEY'] = 'thisismylongandcomplexsecret'
+app.config['ENV'] = 'production'
+app.config['DEBUG'] = False
+app.config['TESTING'] = False
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-bucket_name = 'bucket_name'
-credentials_path = "/path/to/key"
+bucket_name = 'flask-app-storage-prd'
+credentials_path = "/root/gcp-security-prd-0a592ea3cbc8.json"
 
 # DB initialization
 db = SQLAlchemy(app)
@@ -188,4 +191,4 @@ def logout():
         return redirect(url_for('login'))
 
 if __name__ in "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=80, debug=False)
